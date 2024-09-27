@@ -1,7 +1,8 @@
 import axios from "axios";
+import { NewUser, EditingUser } from "./interfaces";
 
 // Create New User
-export const addNewUser = async (newUser) => {
+export const addNewUser = async (newUser: NewUser) => {
   try {
     const response = await axios.post(
       "https://jsonplaceholder.typicode.com/users",
@@ -23,10 +24,12 @@ export const getUserData = async () => {
 };
 
 // Update Existing User
-export const updateExistingUser = async (editingUser) => {
+export const updateExistingUser = async (editingUser: EditingUser | null) => {
   try {
     const response = axios.put(
-      `https://jsonplaceholder.typicode.com/users/${editingUser.id}`,
+      `https://jsonplaceholder.typicode.com/users/${
+        editingUser !== null && editingUser.id
+      }`,
       editingUser
     );
     return response;
@@ -37,7 +40,7 @@ export const updateExistingUser = async (editingUser) => {
 };
 
 // Delete Existing User
-export const deleteExistingUser = async (id) => {
+export const deleteExistingUser = async (id: number) => {
   try {
     await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
   } catch (error) {

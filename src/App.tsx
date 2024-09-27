@@ -16,40 +16,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
-
-interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: {
-    street: string;
-    suite: string;
-    city: string;
-    zipcode: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-  };
-  phone: string;
-  website: string;
-  company: {
-    name: string;
-    catchPhrase: string;
-    bs: string;
-  };
-}
-
-interface NewUser {
-  name: string;
-  email: string;
-  phone: string;
-}
-
-interface EditingUser extends NewUser {
-  id: number;
-}
+import {User, NewUser, EditingUser} from "./interfaces"
 
 const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
