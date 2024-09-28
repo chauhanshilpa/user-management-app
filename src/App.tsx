@@ -11,9 +11,15 @@ import Typography from "@mui/material/Typography";
 import { User, NewUser, EditingUser } from "./interfaces";
 import UsersTable from "./components/UsersTable";
 import Form from "./components/Form";
+import { IoMdPersonAdd } from "react-icons/io";
+import { Routes, Route } from "react-router-dom";
+import UserDetails from "./components/UserDetails";
 
 const App = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [isCreateNewUserIconClicked, setIsCreateNewUserIconClicked] =
+    useState(false);
+  const [isEditUserIconClicked, setIsEditUserIconClicked] = useState(false);
   const [newUser, setNewUser] = useState<NewUser>({
     name: "",
     email: "",
@@ -69,35 +75,56 @@ const App = () => {
 
   return (
     <Box className="app">
-      <Typography variant="h1" className="app-name">
-        User Management
-      </Typography>
-      <Typography variant="h2" className="user-table">
-        Users
-      </Typography>
-      <UsersTable
-        users={users}
-        deleteUser={deleteUser}
-        setEditingUser={setEditingUser}
-      />
-      <Box className="create-user-form">
+      {isCreateNewUserIconClicked && (
         <Form
           formType="create"
           userState={newUser}
           setUserState={setNewUser}
           onClickFunction={createUser}
+          setIsCreateNewUserIconClicked={setIsCreateNewUserIconClicked}
+          setIsEditUserIconClicked={setIsEditUserIconClicked}
         />
-      </Box>
-      {editingUser && (
-        <Box className="edit-user-form">
-          <Form
-            formType="edit"
-            userState={editingUser}
-            setUserState={setEditingUser}
-            onClickFunction={updateUser}
-          />
-        </Box>
       )}
+      {editingUser && isEditUserIconClicked && (
+        <Form
+          formType="edit"
+          userState={editingUser}
+          setUserState={(userState) => setEditingUser(userState as EditingUser)}
+          onClickFunction={updateUser}
+          setIsCreateNewUserIconClicked={setIsCreateNewUserIconClicked}
+          setIsEditUserIconClicked={setIsEditUserIconClicked}
+        />
+      )}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Typography variant="h1" className="app-name">
+                User Management
+              </Typography>
+              <Typography variant="h2" className="user-table-name">
+                Users Data Table
+              </Typography>
+              <IoMdPersonAdd
+                onClick={() => {
+                  setIsCreateNewUserIconClicked(true);
+                  setIsEditUserIconClicked(false);
+                }}
+                style={{ cursor: "pointer" }}
+              />
+              <UsersTable
+                users={users}
+                deleteUser={deleteUser}
+                setEditingUser={setEditingUser}
+                setIsEditUserIconClicked={setIsEditUserIconClicked}
+                setIsCreateNewUserIconClicked={setIsCreateNewUserIconClicked}
+              />
+            </>
+          }
+        />
+        <Route path="/user-details" element={<UserDetails />} />
+      </Routes>
     </Box>
   );
 };

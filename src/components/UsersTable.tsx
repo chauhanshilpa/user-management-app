@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,23 +5,37 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { User, EditingUser } from "../interfaces";
-
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { Navigate, useNavigate } from "react-router-dom";
 interface Props {
   users: User[];
   setEditingUser: React.Dispatch<React.SetStateAction<EditingUser | null>>;
   deleteUser: (id: number) => Promise<void>;
+  setIsEditUserIconClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCreateNewUserIconClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const UsersTable = ({ users, setEditingUser, deleteUser }: Props) => {
+const UsersTable = ({
+  users,
+  setEditingUser,
+  deleteUser,
+  setIsEditUserIconClicked,
+  setIsCreateNewUserIconClicked,
+}: Props) => {
+  const navigate = useNavigate();
   return (
     <TableContainer className="table-container">
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">E-mail</TableCell>
-            <TableCell align="right">Phone</TableCell>
-            <TableCell align="right">Actions</TableCell>
+        <TableHead className="table-head">
+          <TableRow className="table-row">
+            <TableCell className="cell-name">Name</TableCell>
+            <TableCell className="cell-name" align="right">
+              E-mail
+            </TableCell>
+            <TableCell className="cell-name" align="right">
+              Phone
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -30,6 +43,8 @@ const UsersTable = ({ users, setEditingUser, deleteUser }: Props) => {
             <TableRow
               key={user.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              onClick={() => navigate("/user-details", {state: {userDetail: {...user}}})}
+              style={{cursor: "pointer"}}
             >
               <TableCell component="th" scope="row">
                 {user.name}
@@ -37,8 +52,18 @@ const UsersTable = ({ users, setEditingUser, deleteUser }: Props) => {
               <TableCell align="right">{user.email}</TableCell>
               <TableCell align="right">{user.phone}</TableCell>
               <TableCell align="right">
-                <Button onClick={() => setEditingUser(user)}>Edit</Button>
-                <Button onClick={() => deleteUser(user.id)}>Delete</Button>
+                <FaEdit
+                  onClick={() => {
+                    setEditingUser(user);
+                    setIsEditUserIconClicked(true);
+                    setIsCreateNewUserIconClicked(false);
+                  }}
+                  className="edit-icon"
+                />
+                <MdDelete
+                  onClick={() => deleteUser(user.id)}
+                  className="delete-icon"
+                />
               </TableCell>
             </TableRow>
           ))}
