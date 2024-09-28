@@ -8,17 +8,11 @@ import {
 } from "./api";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TextField from "@mui/material/TextField";
-import {User, NewUser, EditingUser} from "./interfaces"
+import { User, NewUser, EditingUser } from "./interfaces";
+import UsersTable from "./components/UsersTable";
+import Form from "./components/Form";
 
-const UserManagement = () => {
+const App = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [newUser, setNewUser] = useState<NewUser>({
     name: "",
@@ -75,104 +69,37 @@ const UserManagement = () => {
 
   return (
     <Box className="app">
-      <Typography variant="h1" className="app-name">User Management</Typography>
-      <Typography variant="h2" className="user-table">Users</Typography>
-      <TableContainer className="table-container">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">E-mail</TableCell>
-              <TableCell align="right">Phone</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow
-                key={user.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {user.name}
-                </TableCell>
-                <TableCell align="right">{user.email}</TableCell>
-                <TableCell align="right">{user.phone}</TableCell>
-                <TableCell align="right">
-                  <Button onClick={() => setEditingUser(user)}>Edit</Button>
-                  <Button onClick={() => deleteUser(user.id)}>Delete</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Typography variant="h1" className="app-name">
+        User Management
+      </Typography>
+      <Typography variant="h2" className="user-table">
+        Users
+      </Typography>
+      <UsersTable
+        users={users}
+        deleteUser={deleteUser}
+        setEditingUser={setEditingUser}
+      />
       <Box className="create-user-form">
-        <Typography variant="h2" className="form-heading">Create User</Typography>
-        <TextField
-          id="outlined-basic"
-          label="Name"
-          variant="outlined"
-          value={newUser.name}
-          onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+        <Form
+          formType="create"
+          userState={newUser}
+          setUserState={setNewUser}
+          onClickFunction={createUser}
         />
-        <TextField
-          id="outlined-basic"
-          label="E-mail"
-          variant="outlined"
-          value={newUser.email}
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Phone"
-          variant="outlined"
-          value={newUser.phone}
-          onChange={(e) => setNewUser({ ...newUser, phone: e.target.value })}
-        />
-        <Button variant="contained" onClick={createUser}>
-          Add User
-        </Button>
       </Box>
-      <Box>
-        {editingUser && (
-          <Box className="edit-user-form">
-            <Typography variant="h2" className="form-heading">Edit User</Typography>
-            <TextField
-              id="outlined-basic"
-              label="Name"
-              variant="outlined"
-              value={editingUser.name}
-              onChange={(e) =>
-                setEditingUser({ ...editingUser, name: e.target.value })
-              }
-            />
-            <TextField
-              id="outlined-basic"
-              label="E-mail"
-              variant="outlined"
-              value={editingUser.email}
-              onChange={(e) =>
-                setEditingUser({ ...editingUser, email: e.target.value })
-              }
-            />
-            <TextField
-              id="outlined-basic"
-              label="Phone"
-              variant="outlined"
-              value={editingUser.phone}
-              onChange={(e) =>
-                setEditingUser({ ...editingUser, phone: e.target.value })
-              }
-            />
-            <Button variant="contained" onClick={updateUser}>
-              Update User
-            </Button>
-          </Box>
-        )}
-      </Box>
+      {editingUser && (
+        <Box className="edit-user-form">
+          <Form
+            formType="edit"
+            userState={editingUser}
+            setUserState={setEditingUser}
+            onClickFunction={updateUser}
+          />
+        </Box>
+      )}
     </Box>
   );
 };
 
-export default UserManagement;
+export default App;
