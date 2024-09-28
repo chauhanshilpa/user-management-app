@@ -6,13 +6,7 @@
     text-align: center;
     font-size: xx-large;
     font-weight: 700;
-}
-
-.user-table-name {
-    font-size: x-large;
-    font-weight: 500;
-    text-align: center;
-    margin: 2rem auto;
+    color: rgb(33, 7, 117)
 }
 
 .form-heading {
@@ -25,6 +19,7 @@
 .table-head .cell-name {
     font-size: large;
     font-weight: 500;
+    color: rgb(87, 84, 84)
 }
 
 .text-fields-box {
@@ -40,6 +35,18 @@
     position: absolute;
     left: 50%;
     transform: translate(-50%);
+}
+
+.add-user-icon {
+    display: flex;
+    cursor: pointer;
+    font-size: x-large;
+    align-self: flex-end;
+    margin-right: 2rem;
+}
+
+.icon:hover {
+    transform: scale(1.2);
 }
 
 .cancel-icon {
@@ -92,6 +99,7 @@
     margin-bottom: 0.5rem;
 }
 
-.user-details-container .company-catchPhrase,.user-details-container .company-bs {
-  font-size: large;
+.user-details-container .company-catchPhrase,
+.user-details-container .company-bs {
+    font-size: large;
 }

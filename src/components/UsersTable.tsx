@@ -7,11 +7,14 @@ import TableRow from "@mui/material/TableRow";
 import { User, EditingUser } from "../interfaces";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 interface Props {
   users: User[];
   setEditingUser: React.Dispatch<React.SetStateAction<EditingUser | null>>;
-  deleteUser: (id: number) => Promise<void>;
+  deleteUser: (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    id: number
+  ) => Promise<void>;
   setIsEditUserIconClicked: React.Dispatch<React.SetStateAction<boolean>>;
   setIsCreateNewUserIconClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -53,16 +56,17 @@ const UsersTable = ({
               <TableCell align="right">{user.phone}</TableCell>
               <TableCell align="right">
                 <FaEdit
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.stopPropagation();
                     setEditingUser(user);
                     setIsEditUserIconClicked(true);
                     setIsCreateNewUserIconClicked(false);
                   }}
-                  className="edit-icon"
+                  className="icon edit-icon"
                 />
                 <MdDelete
-                  onClick={() => deleteUser(user.id)}
-                  className="delete-icon"
+                  onClick={(event) => deleteUser(event, user.id)}
+                  className="icon delete-icon"
                 />
               </TableCell>
             </TableRow>

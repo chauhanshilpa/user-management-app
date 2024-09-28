@@ -26,6 +26,7 @@ const App = () => {
     phone: "",
   });
   const [editingUser, setEditingUser] = useState<EditingUser | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async function () {
@@ -40,6 +41,8 @@ const App = () => {
   }, []);
 
   const createUser = async () => {
+    setIsCreateNewUserIconClicked(false);
+    setIsLoading(true);
     try {
       const response = await addNewUser(newUser);
       setUsers([...users, response?.data]);
@@ -47,9 +50,12 @@ const App = () => {
       console.error("Error creating user:", error);
     }
     setNewUser({ name: "", email: "", phone: "" });
+    setIsLoading(false);
   };
 
   const updateUser = async () => {
+    setIsEditUserIconClicked(false);
+    setIsLoading(true);
     try {
       const response = await updateExistingUser(editingUser);
       const updatedUsers = users.map((user) =>
@@ -62,19 +68,41 @@ const App = () => {
     } catch (error) {
       console.error("Error updating user:", error);
     }
+    setIsLoading(false);
   };
 
-  const deleteUser = async (id: number) => {
+  const deleteUser = async (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    id: number
+  ) => {
+    event.stopPropagation();
+    setIsLoading(true);
     try {
       await deleteExistingUser(id);
       setUsers(users.filter((user) => user.id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);
     }
+    setIsLoading(false);
   };
 
   return (
     <Box className="app">
+      <Box
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "50%",
+          transform: "transalte(-50% -50%)",
+        }}
+      >
+        {isLoading && (
+          <img
+            src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+            alt=""
+          />
+        )}
+      </Box>
       {isCreateNewUserIconClicked && (
         <Form
           formType="create"
@@ -99,18 +127,16 @@ const App = () => {
         <Route
           path="/"
           element={
-            <>
+            <Box style={{ display: "flex", flexDirection: "column" }}>
               <Typography variant="h1" className="app-name">
                 User Management
-              </Typography>
-              <Typography variant="h2" className="user-table-name">
-                Users Data Table
               </Typography>
               <IoMdPersonAdd
                 onClick={() => {
                   setIsCreateNewUserIconClicked(true);
                   setIsEditUserIconClicked(false);
                 }}
+                className="icon add-user-icon"
                 style={{ cursor: "pointer" }}
               />
               <UsersTable
@@ -120,7 +146,7 @@ const App = () => {
                 setIsEditUserIconClicked={setIsEditUserIconClicked}
                 setIsCreateNewUserIconClicked={setIsCreateNewUserIconClicked}
               />
-            </>
+            </Box>
           }
         />
         <Route path="/user-details" element={<UserDetails />} />
