@@ -18,7 +18,6 @@ const UserDetails = () => {
       <Box
         style={{
           display: "flex",
-          gap: "4rem",
           flexWrap: "wrap",
           color: "gray",
         }}

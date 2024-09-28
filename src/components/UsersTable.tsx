@@ -41,20 +41,28 @@ const UsersTable = ({
             </TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody className="table-body">
           {users.map((user) => (
             <TableRow
               key={user.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              onClick={() => navigate("/user-details", {state: {userDetail: {...user}}})}
-              style={{cursor: "pointer"}}
+              onClick={() =>
+                navigate("/user-details", {
+                  state: { userDetail: { ...user } },
+                })
+              }
+              style={{ cursor: "pointer" }}
             >
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" className="cell">
                 {user.name}
               </TableCell>
-              <TableCell align="right">{user.email}</TableCell>
-              <TableCell align="right">{user.phone}</TableCell>
-              <TableCell align="right">
+              <TableCell align="right" className="cell">
+                {user.email}
+              </TableCell>
+              <TableCell align="right" className="cell">
+                {user.phone}
+              </TableCell>
+              <TableCell align="right" className="cell">
                 <FaEdit
                   onClick={(event) => {
                     event.stopPropagation();

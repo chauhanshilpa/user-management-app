@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(246, 252, 247);
+}
+
 .app {
     margin-top: 2rem;
 }
@@ -6,11 +10,11 @@
     text-align: center;
     font-size: xx-large;
     font-weight: 700;
-    color: rgb(33, 7, 117)
+    color: rgb(18, 75, 19)
 }
 
 .form-heading {
-    font-size: large;
+    font-size: x-large;
     font-weight: 500;
     text-align: center;
     margin: 1rem;
@@ -18,14 +22,19 @@
 
 .table-head .cell-name {
     font-size: large;
-    font-weight: 500;
-    color: rgb(87, 84, 84)
+    font-weight: 800;
+}
+
+.table-body .cell {
+    font-size: medium;
+    color: rgb(82, 82, 82);
 }
 
 .text-fields-box {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-top: 2rem;
     margin-bottom: 2rem;
 }
 
@@ -34,7 +43,21 @@
     padding: 1rem;
     position: absolute;
     left: 50%;
+    bottom: 50%;
     transform: translate(-50%);
+    background-image: linear-gradient(150deg,
+            rgb(132, 202, 148),
+            white,
+            white,
+            rgb(132, 202, 148));
+}
+
+.form-card button {
+    background-color: rgb(68, 160, 75);
+}
+
+.form-card button:hover {
+    background-color: rgb(40, 123, 47);
 }
 
 .add-user-icon {
@@ -75,6 +98,11 @@
     margin-bottom: 1rem;
     word-spacing: 6px;
     letter-spacing: 3px;
+}
+
+.user-details-container .email,
+.user-details-container .phone {
+    margin-right: 4rem
 }
 
 .user-details-container .email,
